@@ -1,4 +1,4 @@
-# This query retrieves all transfers made by the first 10 addresses in the accounts entity
+# Sample Queries
 
 ## Fetch the first 10 accounts sent transfer history
 
