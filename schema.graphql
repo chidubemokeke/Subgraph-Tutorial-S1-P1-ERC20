@@ -1,0 +1,15 @@
+type Transfer @entity(immutable: true) {
+  id: ID!
+  from: Account!
+  to: Account!
+  value: BigInt!
+  timestamp: BigInt!
+}
+
+type Account @entity {
+  id: ID!
+  sentTransfers: [Transfer!]! @derivedFrom(field: "from")
+  receivedTransfers: [Transfer!]! @derivedFrom(field: "to")
+  totalSent: BigInt!
+  totalReceived: BigInt!
+}

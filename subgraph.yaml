@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Uniswap
+    network: mainnet
+    source:
+      address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
+      abi: Uniswap
+      startBlock: 20180838
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: Uniswap
+          file: ./abis/Uniswap.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/uniswap.ts
