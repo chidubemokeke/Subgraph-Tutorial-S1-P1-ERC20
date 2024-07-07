@@ -1,6 +1,6 @@
-import { Transfer as TransferEvent } from "../../generated/Uniswap/Uniswap";
-import { Transfer } from "../../generated/schema"; // Import the Transfer and Account entities from the generated schema
-import { getOrCreateAccount } from "../utils/helper";
+import { Transfer as TransferEvent } from "../../generated/Uniswap/Uniswap"; // Import the Transfer event from the Uniswap contract ABI
+import { Transfer } from "../../generated/schema"; // Import the Transfer entity from the generated schema
+import { getOrCreateAccount } from "../utils/helper"; // Import the helper function to get or create an Account entity
 
 // Function to handle transfer events
 export function handleTransfer(event: TransferEvent): void {
