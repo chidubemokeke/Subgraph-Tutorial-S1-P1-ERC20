@@ -104,7 +104,44 @@ type Account @entity {
   - @derivedFrom(field: "from"): This directive indicates that the sentTransfers field should be populated based on the from field of the Transfer entity.
   - @derivedFrom(field: "to"): This directive indicates that the receivedTransfers field should be populated based on the to field of the Transfer entity.
 
-### Step 4: Implementing Mapping Functions
+### Step 5: Helper Functions
+
+// Import necessary types from the Graph Protocol TypeScript library
+import { BigInt, Bytes } from "@graphprotocol/graph-ts"; 
+
+// Import the Account entity from the generated schema
+import { Account } from "../generated/schema"; 
+
+/**
+ * Helper function to load or create an Account entity.
+ * This function attempts to load an Account entity from the store.
+ * If the Account entity does not exist, it creates a new one with initial values.
+ * 
+ * @param address - The address of the account as a Bytes type.
+ * @returns The Account entity.
+ */
+export function getOrCreateAccount(address: Bytes): Account {
+  // Try to load the Account entity from the store using the address as a unique identifier
+  let account = Account.load(address.toHex());
+
+  // If the Account entity does not exist, create a new one
+  if (account == null) {
+    // Create a new Account entity with the address as the unique identifier
+    account = new Account(address.toHex());
+    // Initialize the totalSent field to 0
+    account.totalSent = BigInt.fromI32(0); 
+    // Initialize the totalReceived field to 0
+    account.totalReceived = BigInt.fromI32(0); 
+    // Save the new Account entity to the store
+    account.save(); 
+  }
+
+  // Return the Account entity (either loaded or newly created)
+  return account as Account;
+}
+
+
+### Step 6: Implementing Mapping Functions
 
 ````ts
 Mapping functions in src/uniswap.ts are crucial for translating Ethereum smart contract events into GraphQL entities:
