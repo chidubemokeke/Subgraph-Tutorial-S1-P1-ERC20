@@ -183,6 +183,32 @@ export class Account extends Entity {
   set totalReceived(value: BigInt) {
     this.set("totalReceived", Value.fromBigInt(value));
   }
+
+  get sentCount(): i32 {
+    let value = this.get("sentCount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set sentCount(value: i32) {
+    this.set("sentCount", Value.fromI32(value));
+  }
+
+  get receivedCount(): i32 {
+    let value = this.get("receivedCount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set receivedCount(value: i32) {
+    this.set("receivedCount", Value.fromI32(value));
+  }
 }
 
 export class TransferLoader extends Entity {

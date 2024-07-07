@@ -1,77 +1,77 @@
 # Sample Queries
 
-## Fetch the first 10 accounts sent transfer history
+## This query fetches the account with the highest total amount received and sent (totalReceived, totalSent)
 
 ```gql
-  accounts(first: 10) {
-    # For each account, get the account ID
+query GetAccountWithHighestSentAndReceived {
+  highestReceived: accounts(
+    orderBy: totalReceived
+    orderDirection: desc
+    first: 1
+  ) {
     id
-    # For each account, get all sent transfers
-    sentTransfers {
-      # Get the unique ID of the transfer
-      id
-      # Get the recipient account of the transfer
-      to {
-        id
-      }
-      # Get the value of the transfer
-      value
-      # Get the timestamp of the transfer
-      timestamp
-    }
+    totalReceived
+    receivedCount
   }
-```
-
-## Get Top 10 Highest Transactions
-
-```gql
-# This query retrieves the top 10 highest transactions by value
-query GetTop10HighestTransactions {
-  # Fetch the transfers, ordered by value in descending order, limiting to the first 10 results
-  transfers(orderBy: value, orderDirection: desc, first: 10) {
-    # Get the unique ID of the transfer
+  highestSent: accounts(orderBy: totalSent, orderDirection: desc, first: 1) {
     id
-    # Get the sender account of the transfer
-    from {
-      id
-    }
-    # Get the recipient account of the transfer
-    to {
-      id
-    }
-    # Get the value of the transfer
-    value
-    # Get the timestamp of the transfer
-    timestamp
-    # For this example, include startTime and endTime for demonstration
-    # Both fields are set to the timestamp of the transfer, typically used to indicate a range
-    startTime: timestamp
-    endTime: timestamp
+    totalSent
+    sentCount
   }
 }
 ```
 
-## Get User with the Highest Transactions
+## This query fetchs the top 5 accounts that a specific account has transacted with and their values
 
 ```gql
-# This query retrieves the transaction with the highest value
-query GetPersonWithHighestTransaction {
-  # Fetch the transfers, ordered by value in descending order, limiting to the highest value transaction
-  transfers(orderBy: value, orderDirection: desc, first: 1) {
-    # Get the unique ID of the transfer
+query GetTopInteractions {
+  account(id: "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea") {
     id
-    # Get the sender account of the transfer
-    from {
-      id
+    totalSent
+    totalReceived
+    sentCount
+    receivedCount
+    sentTransfers(orderBy: value, orderDirection: desc, first: 5) {
+      to {
+        id
+      }
+      value
+      timestamp
     }
-    # Get the recipient account of the transfer
-    to {
-      id
+    receivedTransfers(orderBy: value, orderDirection: desc, first: 5) {
+      from {
+        id
+      }
+      value
+      timestamp
     }
-    # Get the value of the transfer
-    value
-    # Get the timestamp of the transfer
-    timestamp
+  }
+}
+```
+
+### This query provides a snapshot of the top accounts by lifetime transfers, whether they are sending or receiving tokens
+
+```graphql
+query TopAccountsLifetime {
+  topSenders: accounts(
+    where: { totalSent_not: null }
+    orderBy: totalSent
+    orderDirection: desc
+    first: 10
+  ) {
+    id
+    totalSent
+    sentCount
+  }
+  topReceivers: accounts(
+    where: { totalReceived_not: null }
+    orderBy: totalReceived
+    orderDirection: desc
+    first: 10
+  ) {
+    id
+    totalReceived
+    receivedCount
   }
 }
 ```

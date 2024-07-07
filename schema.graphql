@@ -12,4 +12,6 @@ type Account @entity {
   receivedTransfers: [Transfer!]! @derivedFrom(field: "to")
   totalSent: BigInt!
   totalReceived: BigInt!
+  sentCount: Int!
+  receivedCount: Int!
 }

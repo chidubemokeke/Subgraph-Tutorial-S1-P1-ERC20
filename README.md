@@ -1,19 +1,19 @@
-# Beginner Level Subgraph Development Masterclass - S1
+# Subgraph Development Masterclass - S1
 
 Welcome to the Beginner Level of the Subgraph Development Masterclass. This tutorial will guide you through the fundamentals of subgraph development using The Graph Studio, from setting up your environment to deploying your first subgraph.
 
 ## Overview
 
-In this masterclass, you'll gain essential skills in subgraph development, enabling you to efficiently index and query blockchain data for decentralized applications (dApps).
+In this masterclass, you'll gain essential skills in subgraph development, enabling you to efficiently index and query blockchain data for your decentralized application(dApps).
 
 ## Learning Objectives
 
 By completing this masterclass, you will:
 
-- Understand the purpose and benefits of subgraphs in decentralized applications.
+- Understand the purpose and benefits of subgraphs in dApps.
 - Learn how to set up your development environment for subgraph development.
-- Define GraphQL entities to model data structures for indexing Ethereum smart contract events.
-- Implement mappings to transform blockchain events into entities in your subgraph.
+- Define GraphQL entities to model data structures for indexing smart contract events.
+- Implement mappings logic to transform blockchain events to entities in your subgraph.
 - Deploy your subgraph using The Graph Studio for querying.
 
 ## Prerequisites
@@ -34,7 +34,7 @@ Before you begin, ensure you have the following installed:
 - Navigate to The Graph Studio, sign in, and create a new subgraph.
 - Enter the required details such as the subgraph name and description.
 - you will receive a deploy key and subgraph slug (e.g., username/subgraph-name)
-- Initialize your subgraph with the commmand you copy from the studio.
+- Initialize your subgraph with the commmand from the studio.
 
 ```bash
 graph init --studio <subgraph-name>
@@ -53,10 +53,17 @@ graph auth --studio <ACCESS_TOKEN>
 
 The initialized project contains the following structure:
 
-- subgraph.yaml: Defines the subgraph manifest.
-- schema.graphql: Contains the GraphQL schema.
-- src/uniswap.ts: Contains the mapping functions.
-- abis/: Contains the contract ABI files.
+- **subgraph.yaml**: Defines the subgraph manifest.
+- **schema.graphql**: Contains the GraphQL schema.
+- **src/**: Contains the source files.
+  - **mappings/**: Contains the mapping functions.
+    - **uniswap.ts**: Handles the mappings for the Uniswap contract.
+  - **utils/**: Contains utility files.
+    - **helper.ts**: Contains helper functions.
+- **abis/**: Contains the contract ABI files.
+  - **Uniswap.json**: ABI for the Uniwsap contract.
+- **generated/**: Contains auto-generated files.
+  - **schema.ts**: Type definitions generated from the GraphQL schema.
 
 ### Step 3: Defining GraphQL Entities
 
@@ -77,6 +84,8 @@ type Account @entity {
   receivedTransfers: [Transfer!]! @derivedFrom(field: "to")
   totalSent: BigInt!
   totalReceived: BigInt!
+  sentCount: Int!
+  receivedCount: Int!
 }
 ```
 
@@ -163,10 +172,17 @@ export function getOrCreateAccount(address: Bytes): Account {
   // If the Account entity does not exist, create a new one
   if (account == null) {
     account = new Account(address.toHex());
-    account.totalSent = BigInt.fromI32(0);
-    account.totalReceived = BigInt.fromI32(0);
-    account.save();
+    account.totalSent = BigInt.fromI32(0); // Initialize totalSent to 0
+    account.totalReceived = BigInt.fromI32(0); // Initialize totalReceived to 0
+    account.sentCount = 0; // Initialize sentCount to 0
+    account.receivedCount = 0; // Initialize receivedCount to 0
+    account.save(); // Save the new Account entity to the store
   }
+
+  // Return the Account entity
+  return account as Account;
+}
+
 
   // Return the Account entity
   return account as Account;
