@@ -1,4 +1,4 @@
-# Beginner Level Subgraph Development Masterclass
+# Subgraph Masterclass - Beginner
 
 Welcome to the Beginner Level of the Subgraph Development Masterclass. In this stage, you will learn the basics of subgraph development using The Graph. This tutorial will guide you through the process of setting up your development environment, creating your first subgraphs, and deploying them.
 
