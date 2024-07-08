@@ -327,7 +327,7 @@ query GetAccountWithHighestSentAndReceived {
 }
 ```
 
-After my query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
+After my second query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
 
 I decided to dig a little deeper to see it's last seven interactions in transfers and receipts with the highest values and the accounts(IDs) involved (I think I have a bit of OCD)
 
