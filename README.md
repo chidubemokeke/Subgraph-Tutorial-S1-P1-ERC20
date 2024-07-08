@@ -65,9 +65,9 @@ The initialized project contains the following structure:
 - **generated/**: Contains auto-generated files.
   - **schema.ts**: Type definitions generated from the GraphQL schema.
 
-### Step 3: Defining GraphQL Entities
+### Step 3: Defining your GraphQL Entities
 
-In subgraph development, GraphQL entities define the data structures that your subgraph will index from Ethereum smart contracts. Let's break down the entities defined in schema.graphql:
+After initializing your subgraph project and setting up your directory structure, the next crucial step is to define your GraphQL entities in the schema. Entities represent and define the data structures that your subgraph will index from Ethereum smart contracts. Let's break down the entities defined in schema.graphql:
 
 ```gql
 type Transfer @entity(immutable: true) {
@@ -115,7 +115,38 @@ type Account @entity {
   - @derivedFrom(field: "from"): This directive indicates that the sentTransfers field should be populated based on the from field of the Transfer entity.
   - @derivedFrom(field: "to"): This directive indicates that the receivedTransfers field should be populated based on the to field of the Transfer entity.
 
-### Step 4: Helper Functions
+### Step 4: YAML Configuration
+
+To configure your entities for deployment, you need to define them in your subgraph.yaml file. Here’s how you can specify the entities:
+
+```yaml
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Uniswap
+    network: mainnet
+    source:
+      address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
+      abi: Uniswap
+      startBlock: 20180838
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: Uniswap
+          file: ./abis/Uniswap.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mappings/uniswap.ts
+```
+
+### Step 5: Helper Functions
 
 In src/utils/helper.ts, define helper functions to manage the creation and retrieval of entities:
 
@@ -145,7 +176,7 @@ export function getOrCreateAccount(address: Bytes): Account {
 Helper Functions: These utility functions such as `getOrCreateAccount` are like trusty sidekicks for managing entities within the subgraph's datastore. They are crucial for creating, retrieving, and updating entities, ensuring everything runs smoothly behind the scenes. This ensures entities are correctly instantiated and updated during event processing.
 ````
 
-### Step 5: Implementing Mapping Functions Logic
+### Step 6: Implementing Mapping Functions Logic
 
 ````ts
 Mapping functions in src/mappings/uniswap.ts are crucial for translating Ethereum smart contract events into GraphQL entities:
@@ -193,9 +224,9 @@ export function handleTransfer(event: TransferEvent): void {
 Mapping Functions: Functions like handleTransfer act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (fromAccount and toAccount), and ensure these changes are persistently stored in the subgraph's datastore.
 ````
 
-## Step 6: Running graph codegen
+## Step 7: Running graph codegen
 
-Why You Need to Run graph codegen
+**\*Why You need to Run graph codegenS**
 
 After making any changes to your schema, mappings, or subgraph manifest, it's crucial to run graph codegen. This command generates the necessary TypeScript types and code that your mappings rely on to interact with the subgraph's data entities. Skipping this step can result in type errors and unexpected behavior during development and deployment.
 How to Run graph codegen
@@ -824,7 +855,21 @@ query TopAccountsLifetime {
 }
 ```
 
-## Step 7: Deploying the Subgraph
+## Step 8: Generate Types and Build Subgraph
+
+Before deploying your subgraph to The Graph Studio, ensure to generate TypeScript typings and build your subgraph
+
+```bash
+graph codegen && graph build
+
+```
+
+`graph codegen`: Generates TypeScript typings based on your GraphQL schema and mappings.
+`graph build`: Compiles your subgraph into executable code for deployment.
+
+This step validates your schema, compiles mappings into WASM modules, and prepares your subgraph for deployment or local testing.
+
+## Step 9: Deploying the Subgraph
 
 Deploy your subgraph to The Graph Studio with the following command:
 
