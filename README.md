@@ -216,7 +216,7 @@ query GetAccountWithHighestSentAndReceived {
 }
 ```
 
-After the first query, I discovered the same address had sent and received the highest amount so my spidey senses started tingling(LOL)
+### Result-1
 
 ```gql
 {
@@ -239,7 +239,9 @@ After the first query, I discovered the same address had sent and received the h
 }
 ```
 
-I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the addresses that sent and received from it(I think I have a bit of OCD)
+After the first query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
+
+I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the accounts that sent and received from it (I think I have a bit of OCD)
 
 ## This query fetchs the top 5 accounts that a specific account has transacted with and their values
 
@@ -268,6 +270,8 @@ query GetTopInteractions {
   }
 }
 ```
+
+### Result-2
 
 ```gql
 {
@@ -357,6 +361,90 @@ query GetTopInteractions {
 }
 ```
 
+I then got a bit more obsessed after noticing it had received only 7 interactions. I decided to dig up the details of these 7 addresses to understand more about their interactions. I think I should stop now before I get sucked in (LOL)
+
+### This will give you the requested information about the 7 accounts from which 0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea received the highest amounts, along with their timestamps
+
+```gql
+query GetAccountReceivedFrom {
+  account(id: "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea") {
+    receivedTransfers(orderBy: value, orderDirection: desc, first: 7) {
+      from {
+        id
+      }
+      value
+      timestamp
+    }
+  }
+}
+```
+
+### Result-3
+
+After the first query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
+
+```gql
+{
+  "data": {
+    "account": {
+      "receivedTransfers": [
+        {
+          "from": {
+            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9"
+          },
+          "value": "1226825308183760000000000",
+          "timestamp": "1720034591"
+        },
+        {
+          "from": {
+            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9"
+          },
+          "value": "1132916709238291000000000",
+          "timestamp": "1720030811"
+        },
+        {
+          "from": {
+            "id": "0xf74cad18819866f07ba83cdc3b53211b45246129"
+          },
+          "value": "497172139725000000000000",
+          "timestamp": "1719901991"
+        },
+        {
+          "from": {
+            "id": "0xa1faf10424969a9d5036def19d38d826f864e40d"
+          },
+          "value": "413605214944582770910600",
+          "timestamp": "1719892955"
+        },
+        {
+          "from": {
+            "id": "0x5c739d009f42470ae169cc8a576e1831a228157b"
+          },
+          "value": "413605214944582770910600",
+          "timestamp": "1719945239"
+        },
+        {
+          "from": {
+            "id": "0x59c31e27700c7bf1338ef05f2b691f20b7cc2a5a"
+          },
+          "value": "412305711113445321091200",
+          "timestamp": "1719892847"
+        },
+        {
+          "from": {
+            "id": "0x9478a441115489b1bc33b1c4b1de8bb7fbd315d1"
+          },
+          "value": "250000000000000000000000",
+          "timestamp": "1719851171"
+        }
+      ]
+    }
+  }
+}
+```
+
+What if I became santa and wanted to reward the top 10 lifetime users of my dApp?
+
 ### This query provides a snapshot of the top accounts by lifetime transfers, whether they are sending or receiving tokens
 
 ```graphql
@@ -383,3 +471,120 @@ query TopAccountsLifetime {
   }
 }
 ```
+
+## Resul 4
+
+```gql
+{
+  "data": {
+    "topSenders": [
+      {
+        "id": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+        "totalSent": "4273064450700601552394449",
+        "sentCount": 145
+      },
+      {
+        "id": "0x28c6c06298d514db089934071355e5743bf21d60",
+        "totalSent": "3717657948491710000000000",
+        "sentCount": 240
+      },
+      {
+        "id": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+        "totalSent": "3674360203473204967367645",
+        "sentCount": 726
+      },
+      {
+        "id": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+        "totalSent": "3287823831334379735244013",
+        "sentCount": 1438
+      },
+      {
+        "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9",
+        "totalSent": "2359742017422051000000000",
+        "sentCount": 2
+      },
+      {
+        "id": "0x63b53181bdc48a9fbf1d23d461d3cfd82b0abc83",
+        "totalSent": "2359742017422051000000000",
+        "sentCount": 2
+      },
+      {
+        "id": "0xa69babef1ca67a37ffaf7a485dfff3382056e78c",
+        "totalSent": "1515494461063009677945733",
+        "sentCount": 369
+      },
+      {
+        "id": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+        "totalSent": "1444504211000862243110291",
+        "sentCount": 1299
+      },
+      {
+        "id": "0xf13def4c901b20310a3a178e02cbd443aae72ac8",
+        "totalSent": "1234808748373082214050200",
+        "sentCount": 1
+      },
+      {
+        "id": "0xe91df726af7f865256982dac350522617a2a785e",
+        "totalSent": "1234808748373082214050200",
+        "sentCount": 1
+      }
+    ],
+    "topReceivers": [
+      {
+        "id": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+        "totalReceived": "4346430298149661862912400",
+        "receivedCount": 7
+      },
+      {
+        "id": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+        "totalReceived": "3821901549290130357910422",
+        "receivedCount": 146
+      },
+      {
+        "id": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
+        "totalReceived": "3381159179699522082032134",
+        "receivedCount": 1418
+      },
+      {
+        "id": "0x28c6c06298d514db089934071355e5743bf21d60",
+        "totalReceived": "2465354169372016058225875",
+        "receivedCount": 433
+      },
+      {
+        "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9",
+        "totalReceived": "2359742017422051000000000",
+        "receivedCount": 2
+      },
+      {
+        "id": "0xa69babef1ca67a37ffaf7a485dfff3382056e78c",
+        "totalReceived": "1515793893005500650268082",
+        "receivedCount": 352
+      },
+      {
+        "id": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+        "totalReceived": "1463369874776041858634747",
+        "receivedCount": 1063
+      },
+      {
+        "id": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+        "totalReceived": "1121493709009500000000000",
+        "receivedCount": 5
+      },
+      {
+        "id": "0x4c6007e38ce164ed80ff8ff94192225fcdac68cd",
+        "totalReceived": "1092956768992595233427269",
+        "receivedCount": 123
+      },
+      {
+        "id": "0x68d3a973e7272eb388022a5c6518d9b2a2e66fbf",
+        "totalReceived": "770306497815843179338958",
+        "receivedCount": 543
+      }
+    ]
+  }
+}
+```
+
+Thats a wrap for the first session of the beginner masterclass series! Ready to jump on the next one?
+
+Follow me to stay updated!
