@@ -730,7 +730,7 @@ query GetAccountReceivedFrom {
 }
 ```
 
-What if I became santa and wanted to reward the top 10 lifetime users of my dApp?
+What if I became santa and wanted to reward the top 5 lifetime users of my dApp?
 
 ## Query 5
 
