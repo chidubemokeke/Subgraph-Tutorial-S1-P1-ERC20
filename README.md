@@ -195,7 +195,95 @@ Mapping Functions: Functions like handleTransfer act as event handlers for Ether
 
 ## Sample Queries
 
-## This query fetches the account with the highest total amount received and sent (totalReceived, totalSent)
+## Query 1: Most Recent Transfers
+
+This query retrieves the five most recent transfers sorted by timestamp in descending order:
+
+```gql
+query GetRecentTransfers {
+  transfers(orderBy: timestamp, orderDirection: desc, first: 5) {
+    id
+    from {
+      id
+    }
+    to {
+      id
+    }
+    value
+    timestamp
+  }
+}
+```
+
+## Returns
+
+```gql
+{
+  "data": {
+    "transfers": [
+      {
+        "id": "0xf3a626cdfcfe1562f2465df4fce18ba75abf757526191d7419fd1625d23f0509-149",
+        "from": {
+          "id": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43"
+        },
+        "to": {
+          "id": "0x4eb0de411d9001b666bbba8030d913de5625ab1a"
+        },
+        "value": "6233636700000000000",
+        "timestamp": "1720468631"
+      },
+      {
+        "id": "0xb037f89f18cbaf7af41a74e90196df859f62a26eb7b478e6be7c2fd09543b505-31",
+        "from": {
+          "id": "0x51c72848c68a965f66fa7a88855f9f7784502a7f"
+        },
+        "to": {
+          "id": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801"
+        },
+        "value": "1934976683105875394560",
+        "timestamp": "1720468463"
+      },
+      {
+        "id": "0x162f7d067e7de4f10db7dc11985bfebb3330cdb78e5fc4512a115b1d0833c24f-631",
+        "from": {
+          "id": "0x68d3a973e7272eb388022a5c6518d9b2a2e66fbf"
+        },
+        "to": {
+          "id": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801"
+        },
+        "value": "1065720858947633858632",
+        "timestamp": "1720468319"
+      },
+      {
+        "id": "0x0a4a83ffe486424ba8c18ff5e1087fb80c393e0d6ab104139daf77ac147390fd-617",
+        "from": {
+          "id": "0xa69babef1ca67a37ffaf7a485dfff3382056e78c"
+        },
+        "to": {
+          "id": "0xd3d2e2692501a5c9ca623199d38826e513033a17"
+        },
+        "value": "231641637524769961951",
+        "timestamp": "1720468319"
+      },
+      {
+        "id": "0xe182b0d0984e78d193ab8559e5a0b272df65ff5a65e16526858a225e38ae9efa-256",
+        "from": {
+          "id": "0x941b4fdb4b1533ab2cc8b90ff0700f658b4aa642"
+        },
+        "to": {
+          "id": "0xec11acc6d90482b9c70cebd04605d0192bd2d8a8"
+        },
+        "value": "307905080000000000",
+        "timestamp": "1720468307"
+      }
+    ]
+  }
+}
+```
+
+## Query 2: Account with Highest Total Received and Sent
+
+This query fetches the account with the highest total amount received and sent (totalReceived, totalSent):
 
 ```gql
 query GetAccountWithHighestSentAndReceived {
@@ -216,7 +304,7 @@ query GetAccountWithHighestSentAndReceived {
 }
 ```
 
-### Result-1
+### Result 2
 
 ```gql
 {
@@ -241,26 +329,28 @@ query GetAccountWithHighestSentAndReceived {
 
 After the first query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
 
-I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the accounts that sent and received from it (I think I have a bit of OCD)
+I decided to dig a little deeper to see it's last seven interactions in transfers and receipts with the highest values and the accounts(IDs) involved (I think I have a bit of OCD)
 
-## This query fetchs the top 5 accounts that a specific account has transacted with and their values
+## Query 3: Top 7 interactions in transfers (totalSent, totalReceived) and the IDs (accounts involved) for a specific account
+
+This query fetches all transfers involving a specific account, identified by its ID (address):
 
 ```gql
-query GetTopInteractions {
+query GetTop7Interactions {
   account(id: "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea") {
     id
     totalSent
     totalReceived
     sentCount
     receivedCount
-    sentTransfers(orderBy: value, orderDirection: desc, first: 5) {
+    sentTransfers(orderBy: value, orderDirection: desc, first: 7) {
       to {
         id
       }
       value
       timestamp
     }
-    receivedTransfers(orderBy: value, orderDirection: desc, first: 5) {
+    receivedTransfers(orderBy: value, orderDirection: desc, first: 7) {
       from {
         id
       }
@@ -271,7 +361,7 @@ query GetTopInteractions {
 }
 ```
 
-### Result-2
+### Result 3
 
 ```gql
 {
@@ -317,76 +407,22 @@ query GetTopInteractions {
           },
           "value": "109707121825329314672250",
           "timestamp": "1720038551"
+        },
+        {
+          "to": {
+            "id": "0x798b6816978e1b174b0ea69b7be2abbd5fc305d8"
+          },
+          "value": "109707121825329314672250",
+          "timestamp": "1720038443"
+        },
+        {
+          "to": {
+            "id": "0x798b6816978e1b174b0ea69b7be2abbd5fc305d8"
+          },
+          "value": "109707121825329314672250",
+          "timestamp": "1720038431"
         }
       ],
-      "receivedTransfers": [
-        {
-          "from": {
-            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9"
-          },
-          "value": "1226825308183760000000000",
-          "timestamp": "1720034591"
-        },
-        {
-          "from": {
-            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9"
-          },
-          "value": "1132916709238291000000000",
-          "timestamp": "1720030811"
-        },
-        {
-          "from": {
-            "id": "0xf74cad18819866f07ba83cdc3b53211b45246129"
-          },
-          "value": "497172139725000000000000",
-          "timestamp": "1719901991"
-        },
-        {
-          "from": {
-            "id": "0xa1faf10424969a9d5036def19d38d826f864e40d"
-          },
-          "value": "413605214944582770910600",
-          "timestamp": "1719892955"
-        },
-        {
-          "from": {
-            "id": "0x5c739d009f42470ae169cc8a576e1831a228157b"
-          },
-          "value": "413605214944582770910600",
-          "timestamp": "1719945239"
-        }
-      ]
-    }
-  }
-}
-```
-
-I then got a bit more obsessed after noticing it had received only 7 interactions. I decided to dig up the details of these 7 addresses to understand more about their interactions. I think I should stop now before I get sucked in (LOL)
-
-### This will give you the requested information about the 7 accounts from which 0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea received the highest amounts, along with their timestamps
-
-```gql
-query GetAccountReceivedFrom {
-  account(id: "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea") {
-    receivedTransfers(orderBy: value, orderDirection: desc, first: 7) {
-      from {
-        id
-      }
-      value
-      timestamp
-    }
-  }
-}
-```
-
-### Result-3
-
-After the first query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
-
-```gql
-{
-  "data": {
-    "account": {
       "receivedTransfers": [
         {
           "from": {
@@ -443,9 +479,247 @@ After the first query, I discovered the same account had sent and received the h
 }
 ```
 
+I then got a bit more obsessed after noticing it had received only 7 interactions. I decided to dig up the details of these 7 addresses to understand more about their interactions. I think I should stop now before I get sucked in (LOL)
+
+## Query 4
+
+This query retrieves detailed information about the sender accounts for the top 7 transfers received by the specified account, providing a comprehensive view of each sender’s transfer activity and statistics.
+
+```gql
+query GetAccountReceivedFrom {
+  account(id: "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea") {
+    receivedTransfers(orderBy: value, orderDirection: desc, first: 7) {
+      from {
+        id
+        sentTransfers {
+          id
+          value
+          timestamp
+        }
+        receivedTransfers {
+          id
+          value
+          timestamp
+        }
+        totalSent
+        totalReceived
+        sentCount
+        receivedCount
+      }
+      value
+      timestamp
+    }
+  }
+}
+```
+
+### Result 4
+
+```gql
+{
+  "data": {
+    "account": {
+      "receivedTransfers": [
+        {
+          "from": {
+            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9",
+            "sentTransfers": [
+              {
+                "id": "0x3a775350a9908cfca1695b064f00c72b007f2538e0e8926a2df2a2f57b4720b4-424",
+                "value": "1132916709238291000000000",
+                "timestamp": "1720030811"
+              },
+              {
+                "id": "0x776032122b0d745ef52b7c9fecfa65e5d6270af0bcbe67139adabab1d884c845-303",
+                "value": "1226825308183760000000000",
+                "timestamp": "1720034591"
+              }
+            ],
+            "receivedTransfers": [
+              {
+                "id": "0x32594afb9395b75f5734bff8cc82c8a4f91d5d28e94a392d05255ce6faa9584b-278",
+                "value": "1132916709238291000000000",
+                "timestamp": "1720030751"
+              },
+              {
+                "id": "0x97945f5540805abd44b7a2b8d0902de3df13e33289159659573b43eb222a0445-104",
+                "value": "1226825308183760000000000",
+                "timestamp": "1720034531"
+              }
+            ],
+            "totalSent": "2359742017422051000000000",
+            "totalReceived": "2359742017422051000000000",
+            "sentCount": 2,
+            "receivedCount": 2
+          },
+          "value": "1226825308183760000000000",
+          "timestamp": "1720034591"
+        },
+        {
+          "from": {
+            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9",
+            "sentTransfers": [
+              {
+                "id": "0x3a775350a9908cfca1695b064f00c72b007f2538e0e8926a2df2a2f57b4720b4-424",
+                "value": "1132916709238291000000000",
+                "timestamp": "1720030811"
+              },
+              {
+                "id": "0x776032122b0d745ef52b7c9fecfa65e5d6270af0bcbe67139adabab1d884c845-303",
+                "value": "1226825308183760000000000",
+                "timestamp": "1720034591"
+              }
+            ],
+            "receivedTransfers": [
+              {
+                "id": "0x32594afb9395b75f5734bff8cc82c8a4f91d5d28e94a392d05255ce6faa9584b-278",
+                "value": "1132916709238291000000000",
+                "timestamp": "1720030751"
+              },
+              {
+                "id": "0x97945f5540805abd44b7a2b8d0902de3df13e33289159659573b43eb222a0445-104",
+                "value": "1226825308183760000000000",
+                "timestamp": "1720034531"
+              }
+            ],
+            "totalSent": "2359742017422051000000000",
+            "totalReceived": "2359742017422051000000000",
+            "sentCount": 2,
+            "receivedCount": 2
+          },
+          "value": "1132916709238291000000000",
+          "timestamp": "1720030811"
+        },
+        {
+          "from": {
+            "id": "0xf74cad18819866f07ba83cdc3b53211b45246129",
+            "sentTransfers": [
+              {
+                "id": "0x4dad199fe5af03dc6c4d0ff3a7715b726e7c062ff7019e3877d98ab2291601a7-318",
+                "value": "497172139725000000000000",
+                "timestamp": "1719901991"
+              }
+            ],
+            "receivedTransfers": [
+              {
+                "id": "0x685868831e502b460ba6134ddb207f40ecba8667ac68e63874289a342fefb114-94",
+                "value": "497172139725000000000000",
+                "timestamp": "1719901931"
+              }
+            ],
+            "totalSent": "497172139725000000000000",
+            "totalReceived": "497172139725000000000000",
+            "sentCount": 1,
+            "receivedCount": 1
+          },
+          "value": "497172139725000000000000",
+          "timestamp": "1719901991"
+        },
+        {
+          "from": {
+            "id": "0xa1faf10424969a9d5036def19d38d826f864e40d",
+            "sentTransfers": [
+              {
+                "id": "0x62f68fbe04a071b63b9b0c3e1202eb5dd2298c0a4c67f0e29e70a4006d6fe77c-247",
+                "value": "413605214944582770910600",
+                "timestamp": "1719892955"
+              }
+            ],
+            "receivedTransfers": [
+              {
+                "id": "0x7ebcbd1839a4824476151b08bca67319f58d0dd6604f1c1fc4e1e84eddfa1963-140",
+                "value": "16667448953359234315600",
+                "timestamp": "1719854795"
+              }
+            ],
+            "totalSent": "413605214944582770910600",
+            "totalReceived": "16667448953359234315600",
+            "sentCount": 1,
+            "receivedCount": 1
+          },
+          "value": "413605214944582770910600",
+          "timestamp": "1719892955"
+        },
+        {
+          "from": {
+            "id": "0x5c739d009f42470ae169cc8a576e1831a228157b",
+            "sentTransfers": [
+              {
+                "id": "0x536113e134ad14ae989e1be97e5b2ff7a00011a9495f7ae1f2fd0cead33de995-3219",
+                "value": "413605214944582770910600",
+                "timestamp": "1719945239"
+              }
+            ],
+            "receivedTransfers": [
+              {
+                "id": "0xa5c2acdc0a8b7baf08973ab804f9d8ba231ba7a664d392aced2b3d9e95dc85ca-141",
+                "value": "16667448953359234315600",
+                "timestamp": "1719854795"
+              }
+            ],
+            "totalSent": "413605214944582770910600",
+            "totalReceived": "16667448953359234315600",
+            "sentCount": 1,
+            "receivedCount": 1
+          },
+          "value": "413605214944582770910600",
+          "timestamp": "1719945239"
+        },
+        {
+          "from": {
+            "id": "0x59c31e27700c7bf1338ef05f2b691f20b7cc2a5a",
+            "sentTransfers": [
+              {
+                "id": "0x69f3108384f6ad8371636ec5d2c9a3f3d5e6ebd6be1777ce8f42d5f14c053c71-97",
+                "value": "412305711113445321091200",
+                "timestamp": "1719892847"
+              }
+            ],
+            "receivedTransfers": [],
+            "totalSent": "412305711113445321091200",
+            "totalReceived": "0",
+            "sentCount": 1,
+            "receivedCount": 0
+          },
+          "value": "412305711113445321091200",
+          "timestamp": "1719892847"
+        },
+        {
+          "from": {
+            "id": "0x9478a441115489b1bc33b1c4b1de8bb7fbd315d1",
+            "sentTransfers": [
+              {
+                "id": "0xabd4415b336bbf4d68547229ffcc5c82f668cec8c77a6faed82ef199c782f748-567",
+                "value": "250000000000000000000000",
+                "timestamp": "1719851171"
+              }
+            ],
+            "receivedTransfers": [
+              {
+                "id": "0x7b3213e612ce1785cda8a471214d8f35f0231744d01ccc0dbbd9c5faeef570f1-351",
+                "value": "250000000000000000000000",
+                "timestamp": "1719851051"
+              }
+            ],
+            "totalSent": "250000000000000000000000",
+            "totalReceived": "250000000000000000000000",
+            "sentCount": 1,
+            "receivedCount": 1
+          },
+          "value": "250000000000000000000000",
+          "timestamp": "1719851171"
+        }
+      ]
+    }
+  }
+}
+```
+
 What if I became santa and wanted to reward the top 10 lifetime users of my dApp?
 
-### This query provides a snapshot of the top accounts by lifetime transfers, whether they are sending or receiving tokens
+## Query 5
+
+### This query provides a snapshot of the top 5 accounts by lifetime transfers, whether they are sending or receiving tokens
 
 ```graphql
 query TopAccountsLifetime {
@@ -453,7 +727,7 @@ query TopAccountsLifetime {
     where: { totalSent_not: null }
     orderBy: totalSent
     orderDirection: desc
-    first: 10
+    first: 5
   ) {
     id
     totalSent
@@ -463,7 +737,7 @@ query TopAccountsLifetime {
     where: { totalReceived_not: null }
     orderBy: totalReceived
     orderDirection: desc
-    first: 10
+    first: 5
   ) {
     id
     totalReceived
@@ -472,7 +746,7 @@ query TopAccountsLifetime {
 }
 ```
 
-## Resul 4
+## Result 5
 
 ```gql
 {
@@ -484,49 +758,24 @@ query TopAccountsLifetime {
         "sentCount": 145
       },
       {
-        "id": "0x28c6c06298d514db089934071355e5743bf21d60",
-        "totalSent": "3717657948491710000000000",
-        "sentCount": 240
+        "id": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+        "totalSent": "3771322525996224967367645",
+        "sentCount": 758
       },
       {
-        "id": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
-        "totalSent": "3674360203473204967367645",
-        "sentCount": 726
+        "id": "0x28c6c06298d514db089934071355e5743bf21d60",
+        "totalSent": "3738606268814830000000000",
+        "sentCount": 249
       },
       {
         "id": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
-        "totalSent": "3287823831334379735244013",
-        "sentCount": 1438
+        "totalSent": "3354289694171527390083944",
+        "sentCount": 1480
       },
       {
         "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9",
         "totalSent": "2359742017422051000000000",
         "sentCount": 2
-      },
-      {
-        "id": "0x63b53181bdc48a9fbf1d23d461d3cfd82b0abc83",
-        "totalSent": "2359742017422051000000000",
-        "sentCount": 2
-      },
-      {
-        "id": "0xa69babef1ca67a37ffaf7a485dfff3382056e78c",
-        "totalSent": "1515494461063009677945733",
-        "sentCount": 369
-      },
-      {
-        "id": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
-        "totalSent": "1444504211000862243110291",
-        "sentCount": 1299
-      },
-      {
-        "id": "0xf13def4c901b20310a3a178e02cbd443aae72ac8",
-        "totalSent": "1234808748373082214050200",
-        "sentCount": 1
-      },
-      {
-        "id": "0xe91df726af7f865256982dac350522617a2a785e",
-        "totalSent": "1234808748373082214050200",
-        "sentCount": 1
       }
     ],
     "topReceivers": [
@@ -537,48 +786,23 @@ query TopAccountsLifetime {
       },
       {
         "id": "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
-        "totalReceived": "3821901549290130357910422",
-        "receivedCount": 146
+        "totalReceived": "3838529608228784655116182",
+        "receivedCount": 150
       },
       {
         "id": "0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801",
-        "totalReceived": "3381159179699522082032134",
-        "receivedCount": 1418
+        "totalReceived": "3448983886682133378856203",
+        "receivedCount": 1476
       },
       {
         "id": "0x28c6c06298d514db089934071355e5743bf21d60",
-        "totalReceived": "2465354169372016058225875",
-        "receivedCount": 433
+        "totalReceived": "2586453345660636149443395",
+        "receivedCount": 448
       },
       {
         "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9",
         "totalReceived": "2359742017422051000000000",
         "receivedCount": 2
-      },
-      {
-        "id": "0xa69babef1ca67a37ffaf7a485dfff3382056e78c",
-        "totalReceived": "1515793893005500650268082",
-        "receivedCount": 352
-      },
-      {
-        "id": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
-        "totalReceived": "1463369874776041858634747",
-        "receivedCount": 1063
-      },
-      {
-        "id": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
-        "totalReceived": "1121493709009500000000000",
-        "receivedCount": 5
-      },
-      {
-        "id": "0x4c6007e38ce164ed80ff8ff94192225fcdac68cd",
-        "totalReceived": "1092956768992595233427269",
-        "receivedCount": 123
-      },
-      {
-        "id": "0x68d3a973e7272eb388022a5c6518d9b2a2e66fbf",
-        "totalReceived": "770306497815843179338958",
-        "receivedCount": 543
       }
     ]
   }
