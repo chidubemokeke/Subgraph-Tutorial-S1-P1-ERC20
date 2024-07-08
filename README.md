@@ -34,7 +34,7 @@ Before you begin, ensure you have the following installed:
 - Navigate to The Graph Studio, sign in, and create a new subgraph.
 - Enter the required details such as the subgraph name and description.
 - you will receive a deploy key and subgraph slug (e.g., username/subgraph-name)
-- Initialize your subgraph with the commmand from the studio.
+- Initialize your subgraph with the command from the studio.
 
 ```bash
 graph init --studio <subgraph-name>
@@ -142,8 +142,7 @@ export function getOrCreateAccount(address: Bytes): Account {
   return account as Account;
 }```
 
-Helper Functions: These utility functions such as `getOrCreateAccount` are like trusty sidekicks for managing entities within the subgraph's datastore. They are crucial for creating, retreiving and updating entities, ensuring everything runs smoothly behind the scenes. This ensures entities are correctly instantiated and updated during event processing.
->>>>>>> 82fc57e14c52777656c2996ef1ac6204129aedec
+Helper Functions: These utility functions such as `getOrCreateAccount` are like trusty sidekicks for managing entities within the subgraph's datastore. They are crucial for creating, retrieving, and updating entities, ensuring everything runs smoothly behind the scenes. This ensures entities are correctly instantiated and updated during event processing.
 ````
 
 ### Step 5: Implementing Mapping Functions Logic
