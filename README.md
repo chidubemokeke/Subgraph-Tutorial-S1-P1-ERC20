@@ -193,6 +193,21 @@ export function handleTransfer(event: TransferEvent): void {
 Mapping Functions: Functions like handleTransfer act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (fromAccount and toAccount), and ensure these changes are persistently stored in the subgraph's datastore.
 ````
 
+## Step 6: Running graph codegen
+
+Why You Need to Run graph codegen
+
+After making any changes to your schema, mappings, or subgraph manifest, it's crucial to run graph codegen. This command generates the necessary TypeScript types and code that your mappings rely on to interact with the subgraph's data entities. Skipping this step can result in type errors and unexpected behavior during development and deployment.
+How to Run graph codegen
+
+- Open your terminal.
+- Navigate to your subgraph's project directory.
+- Run the following command:
+
+```bash
+graph codegen
+```
+
 ## Sample Queries
 
 ## Query 1: Most Recent Transfers
@@ -809,6 +824,16 @@ query TopAccountsLifetime {
 }
 ```
 
-Thats a wrap for the first session of the beginner masterclass series! Ready to jump on the next one?
+## Step 7: Deploying the Subgraph
+
+Deploy your subgraph to The Graph Studio with the following command:
+
+```bash
+graph deploy --studio <subgraph-name>
+```
+
+Congratulations! You've successfully completed Part 1 of the Beginner Level in the Subgraph Development Masterclass. You've learned how to define entities, implement mappings, and deploy a subgraph using an ERC20 token contract as a use case.
+
+In the next part, we'll delve deeper into more advanced topics and explore additional functionalities to enhance your subgraph development skills.
 
 Follow me to stay updated!
