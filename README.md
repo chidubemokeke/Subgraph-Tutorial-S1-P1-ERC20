@@ -239,7 +239,9 @@ query GetAccountWithHighestSentAndReceived {
 }
 ```
 
-I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the addresses that sent and received from it(I think I have a bit of OCD)
+After the first query, I discovered the same account had sent and received the highest amount so my spidey senses started tingling (LOL)
+
+I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the accounts that sent and received from it (I think I have a bit of OCD)
 
 ## This query fetchs the top 5 accounts that a specific account has transacted with and their values
 
