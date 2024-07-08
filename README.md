@@ -142,7 +142,11 @@ export function getOrCreateAccount(address: Bytes): Account {
   return account as Account;
 }```
 
+<<<<<<< HEAD
 Helper Functions: These utility functions, such as `getOrCreateAccount` are like trusty sidekicks for managing entities within the subgraph's datastore. They are crucial for creating, retreiving and updating entities, ensuring everything runs smoothly behind the scenes. This ensures entities are correctly instantiated and updated during event processing.
+=======
+Helper Functions: These utility functions such as `getOrCreateAccount` are like trusty sidekicks for managing entities within the subgraph's datastore. They are crucial for creating, retreiving and updating entities, ensuring everything runs smoothly behind the scenes. This ensures entities are correctly instantiated and updated during event processing.
+>>>>>>> 82fc57e14c52777656c2996ef1ac6204129aedec
 ````
 
 ### Step 5: Implementing Mapping Functions Logic
