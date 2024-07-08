@@ -239,7 +239,7 @@ After the first query, I discovered the same address had sent and received the h
 }
 ```
 
-I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the addresses that sent and received from it(I think I have a bit of OCD)
+I decided to dig a little deeper to see its' last five interactions in transfers and receipts with the highest values and the addresses that sent and received from it(I think I have a bit of OCD)
 
 ## This query fetchs the top 5 accounts that a specific account has transacted with and their values
 
