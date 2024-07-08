@@ -192,3 +192,194 @@ export function handleTransfer(event: TransferEvent): void {
 
 Mapping Functions: Functions like handleTransfer act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (fromAccount and toAccount), and ensure these changes are persistently stored in the subgraph's datastore.
 ````
+
+## Sample Queries
+
+## This query fetches the account with the highest total amount received and sent (totalReceived, totalSent)
+
+```gql
+query GetAccountWithHighestSentAndReceived {
+  highestReceived: accounts(
+    orderBy: totalReceived
+    orderDirection: desc
+    first: 1
+  ) {
+    id
+    totalReceived
+    receivedCount
+  }
+  highestSent: accounts(orderBy: totalSent, orderDirection: desc, first: 1) {
+    id
+    totalSent
+    sentCount
+  }
+}
+```
+
+After the first query, I discovered the same address had sent and received the highest amount so my spidey senses started tingling(LOL)
+
+```gql
+{
+  "data": {
+    "highestReceived": [
+      {
+        "id": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+        "totalReceived": "4346430298149661862912400",
+        "receivedCount": 7
+      }
+    ],
+    "highestSent": [
+      {
+        "id": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+        "totalSent": "4273064450700601552394449",
+        "sentCount": 145
+      }
+    ]
+  }
+}
+```
+
+I decided to dig a little deeper to see it's last five interactions in transfers and receipts with the highest values and the addresses that sent and received from it(I think I have a bit of OCD)
+
+## This query fetchs the top 5 accounts that a specific account has transacted with and their values
+
+```gql
+query GetTopInteractions {
+  account(id: "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea") {
+    id
+    totalSent
+    totalReceived
+    sentCount
+    receivedCount
+    sentTransfers(orderBy: value, orderDirection: desc, first: 5) {
+      to {
+        id
+      }
+      value
+      timestamp
+    }
+    receivedTransfers(orderBy: value, orderDirection: desc, first: 5) {
+      from {
+        id
+      }
+      value
+      timestamp
+    }
+  }
+}
+```
+
+```gql
+{
+  "data": {
+    "account": {
+      "id": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+      "totalSent": "4273064450700601552394449",
+      "totalReceived": "4346430298149661862912400",
+      "sentCount": 145,
+      "receivedCount": 7,
+      "sentTransfers": [
+        {
+          "to": {
+            "id": "0xdfe696ff5443a42dd4c53be979e9de4ce6e979c6"
+          },
+          "value": "313984368071616599889300",
+          "timestamp": "1719893471"
+        },
+        {
+          "to": {
+            "id": "0xe2cf7f78238cf9e4e329d341fb77dcee088f56c5"
+          },
+          "value": "129316050200000000000000",
+          "timestamp": "1719937439"
+        },
+        {
+          "to": {
+            "id": "0xfc2bb1e27c5d6aec85b8b6731999041a7aa6ab3e"
+          },
+          "value": "109707121825329314672250",
+          "timestamp": "1720038575"
+        },
+        {
+          "to": {
+            "id": "0xfc2bb1e27c5d6aec85b8b6731999041a7aa6ab3e"
+          },
+          "value": "109707121825329314672250",
+          "timestamp": "1720038599"
+        },
+        {
+          "to": {
+            "id": "0xa91d546814feb61eff741007f2bf21e244a633a9"
+          },
+          "value": "109707121825329314672250",
+          "timestamp": "1720038551"
+        }
+      ],
+      "receivedTransfers": [
+        {
+          "from": {
+            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9"
+          },
+          "value": "1226825308183760000000000",
+          "timestamp": "1720034591"
+        },
+        {
+          "from": {
+            "id": "0xc5e3e60c107da406540611437b35a04f62acd7e9"
+          },
+          "value": "1132916709238291000000000",
+          "timestamp": "1720030811"
+        },
+        {
+          "from": {
+            "id": "0xf74cad18819866f07ba83cdc3b53211b45246129"
+          },
+          "value": "497172139725000000000000",
+          "timestamp": "1719901991"
+        },
+        {
+          "from": {
+            "id": "0xa1faf10424969a9d5036def19d38d826f864e40d"
+          },
+          "value": "413605214944582770910600",
+          "timestamp": "1719892955"
+        },
+        {
+          "from": {
+            "id": "0x5c739d009f42470ae169cc8a576e1831a228157b"
+          },
+          "value": "413605214944582770910600",
+          "timestamp": "1719945239"
+        }
+      ]
+    }
+  }
+}
+```
+
+### This query provides a snapshot of the top accounts by lifetime transfers, whether they are sending or receiving tokens
+
+```graphql
+query TopAccountsLifetime {
+  topSenders: accounts(
+    where: { totalSent_not: null }
+    orderBy: totalSent
+    orderDirection: desc
+    first: 10
+  ) {
+    id
+    totalSent
+    sentCount
+  }
+  topReceivers: accounts(
+    where: { totalReceived_not: null }
+    orderBy: totalReceived
+    orderDirection: desc
+    first: 10
+  ) {
+    id
+    totalReceived
+    receivedCount
+  }
+}
+```
