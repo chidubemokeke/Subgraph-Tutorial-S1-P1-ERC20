@@ -1,6 +1,6 @@
-# Subgraph Development Masterclass - 1
+# Subgraph Development Masterclass - Beginner - Part 1
 
-Welcome to the Beginner Level of the Subgraph Development Masterclass. This tutorial will guide you through the fundamentals of subgraph development using The Graph Studio, from setting up your environment to deploying your first subgraph.
+Welcome to the Beginner Level of the Subgraph Development Masterclass. This tutorial will guide you through the fundamentals of subgraph development using The Graph Studio, from setting up your environment to deploying your first subgraph using an ERC20 token contract as a use case.
 
 ## Overview
 
