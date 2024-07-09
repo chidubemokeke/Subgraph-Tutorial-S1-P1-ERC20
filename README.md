@@ -237,12 +237,12 @@ export function handleTransfer(event: TransferEvent): void {
   transfer.save();
 }```
 
-Mapping Functions: Functions like handleTransfer act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (fromAccount and toAccount), and ensure these changes are persistently stored in the subgraph's datastore.
+Mapping Functions: Functions like `handleTransfer` act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (`fromAccount` and `toAccount`), and ensure these changes are persistently stored in the subgraph's datastore.
 ````
 
 ## Step 7: Running graph codegen
 
-**_Why You need to Run graph codegen_**
+**_Why You need to Run `graph codegen`_**
 
 After making any changes to your schema, mappings, or subgraph manifest, it's crucial to run graph codegen. This command generates the necessary TypeScript types and code that your mappings rely on to interact with the subgraph's data entities. Skipping this step can result in type errors and unexpected behavior during development and deployment.
 How to Run graph codegen
