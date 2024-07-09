@@ -255,7 +255,38 @@ How to Run graph codegen
 graph codegen
 ```
 
+## Step 8: Generate Types and Build Subgraph
+
+Before deploying your subgraph to The Graph Studio, ensure to generate TypeScript typings and build your subgraph. Together, `graph codegen` prepares your subgraph project by generating TypeScript typings for your subgraph based on your GraphQL schema (`schema.graphql`) and the mappings defined in your project. It analyzes your mappings (typically located in /src/mappings) and generates TypeScript types that correspond to your entities and their fields.
+
+While `graph build` compiles your subgraph and creates the necessary artifacts for deployment. It validates your schema, compiles your mappings into WASM (WebAssembly) modules, and prepares your subgraph for deployment to The Graph's Network or for local deployment on a Graph Node. During this process, it also ensures that all dependencies and configurations specified in your subgraph.yaml file are correctly processed and included.
+How to Run graph codegen and graph build
+
+- Open your terminal.
+- Navigate to your subgraph's project directory.
+- Run the following command:
+
+```bash
+graph codegen && graph build
+```
+
+## Step 9: Deploying the Subgraph
+
+Deploy your subgraph with the following command from your account in The Graph Studio.
+
+```bash
+graph deploy --studio <subgraph-name>
+```
+
+## Conclusion
+
+Congratulations! You've successfully completed Part 1 of the Beginner Level in the Subgraph Development Masterclass. You've learned how to define entities, implement mappings, and deploy a subgraph using an ERC20 token contract as a use case.
+
+In the next part, we'll delve deeper into more diverse topics and explore additional functionalities to enhance your skills.
+
 ## Testing and Sample Queries
+
+The `playground` section in the Subgraph Studio allows you to test/query your subgraph after deploying even before it's published. After testing, you can now publish your subgraph to The Graph's Decentralazed Network.
 
 ## Query 1: Most Recent Transfers
 
