@@ -278,6 +278,10 @@ Deploy your subgraph with the following command from your account in The Graph S
 graph deploy --studio <subgraph-name>
 ```
 
+## Additional Resources
+
+For more detailed information and examples, refer to [The Graph Protocol Documentation](https://thegraph.com/docs/en/)
+
 ## Conclusion
 
 Congratulations! You've successfully completed Part 1 of the Beginner Level in the Subgraph Development Masterclass. You've learned how to define entities, implement mappings, and deploy a subgraph using an ERC20 token contract as a use case.
