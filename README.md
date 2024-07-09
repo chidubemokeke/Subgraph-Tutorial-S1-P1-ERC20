@@ -65,7 +65,7 @@ The initialized project contains the following structure:
 - **generated/**: Contains auto-generated files.
   - **schema.ts**: Type definitions generated from the GraphQL schema.
 
-### Step 3: Defining your GraphQL Entities
+### Step 3: Defining your GraphQL Entities (`schema.graphql`)
 
 After initializing your subgraph project and setting up your directory structure, the next crucial step is to define your GraphQL entities in the schema. Entities represent and define the data structures that your subgraph will index from Ethereum smart contracts. Let's break down the entities defined in schema.graphql:
 
@@ -115,7 +115,7 @@ type Account @entity {
   - @derivedFrom(field: "from"): This directive indicates that the sentTransfers field should be populated based on the from field of the Transfer entity.
   - @derivedFrom(field: "to"): This directive indicates that the receivedTransfers field should be populated based on the to field of the Transfer entity.
 
-### Step 4: YAML Configuration
+### Step 4: YAML Configuration (`subgraph.yaml`)
 
 To configure your entities for deployment, you need to define them in your subgraph.yaml file. Here’s how you can specify the entities:
 
@@ -145,6 +145,22 @@ dataSources:
           handler: handleTransfer
       file: ./src/mappings/uniswap.ts
 ```
+
+- **specVersion**: Specifies the version of the subgraph manifest specification being used (0.0.5).
+- **schema**: Points to the GraphQL schema file (`schema.graphql`) defining entities and types.
+- **dataSources**: Configures the data source for indexing Ethereum events from Uniswap on the mainnet.
+  - **kind**: Specifies the type of data source (ethereum).
+  - **name**: Describes the name of the data source (Uniswap).
+  - **network**: Specifies the Ethereum network (mainnet).
+  - **source**: Provides details about the Ethereum smart contract (address, abi, startBlock).
+  - **mapping**: Defines how Ethereum events are mapped to entities in the subgraph.
+    - **kind**: Specifies the type of mapping (ethereum/events).
+    - **apiVersion**: Specifies the version of the mapping API (0.0.7).
+    - **language**: Specifies the language for writing the mapping (wasm/assemblyscript).
+    - **entities**: Lists the entities defined in the GraphQL schema (Transfer).
+    - **abis**: Specifies the ABI file used for interacting with the smart contract.
+    - **eventHandlers**: Defines event handlers for specific Ethereum events (Transfer).
+    - **file**: Points to the TypeScript file containing the mapping logic (./src/mappings/uniswap.ts).
 
 ### Step 5: Helper Functions
 
@@ -226,7 +242,7 @@ Mapping Functions: Functions like handleTransfer act as event handlers for Ether
 
 ## Step 7: Running graph codegen
 
-**\*Why You need to Run graph codegenS**
+**_Why You need to Run graph codegen_**
 
 After making any changes to your schema, mappings, or subgraph manifest, it's crucial to run graph codegen. This command generates the necessary TypeScript types and code that your mappings rely on to interact with the subgraph's data entities. Skipping this step can result in type errors and unexpected behavior during development and deployment.
 How to Run graph codegen
@@ -239,7 +255,7 @@ How to Run graph codegen
 graph codegen
 ```
 
-## Sample Queries
+## Testing and Sample Queries
 
 ## Query 1: Most Recent Transfers
 
