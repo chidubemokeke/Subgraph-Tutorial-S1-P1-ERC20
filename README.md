@@ -201,7 +201,7 @@ import { Transfer as TransferEvent } from "../../generated/Uniswap/Uniswap"; // 
 import { Transfer } from "../../generated/schema"; // Import the Transfer entity from the generated schema
 import { getOrCreateAccount } from "../utils/helper"; // Import the helper function to get or create an Account e  ntity
 
-// Function to handle Transfer events
+// Function to handle transfer events
 export function handleTransfer(event: TransferEvent): void {
   // Get or create accounts for the sender and receiver
   let fromAccount = getOrCreateAccount(event.params.from);
@@ -212,14 +212,14 @@ export function handleTransfer(event: TransferEvent): void {
   toAccount.receivedCount += 1;
 
   // Update the receiver's received count and total received amount
-  fromAccount.totalSent = fromAccount.totalSent.plus(event.params.value);
-  toAccount.totalReceived = toAccount.totalReceived.plus(event.params.value);
+  fromAccount.totalSent = fromAccount.totalSent.plus(event.params.amount);
+  toAccount.totalReceived = toAccount.totalReceived.plus(event.params.amount);
 
   // Save the updated accounts to the store
   fromAccount.save();
   toAccount.save();
 
-  // Create a new Transfer entity
+  // Create a new Transfer entity with the unique ID
   let transfer = new Transfer(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
@@ -227,10 +227,9 @@ export function handleTransfer(event: TransferEvent): void {
   // Set the properties of the Transfer entity
   transfer.from = fromAccount.id;
   transfer.to = toAccount.id;
-  transfer.value = event.params.value;
+  transfer.value = event.params.amount;
   transfer.timestamp = event.block.timestamp;
   transfer.save(); // Save the Transfer entity to the store
-}
 }```
 
 Mapping Functions: Functions like `handleTransfer` act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (`fromAccount` and `toAccount`), and ensure these changes are persistently stored in the subgraph's datastore.
