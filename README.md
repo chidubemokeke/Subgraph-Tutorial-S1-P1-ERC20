@@ -278,9 +278,9 @@ Deploy your subgraph with the following command from your account in The Graph S
 graph deploy --studio <subgraph-name>
 ```
 
-## Additional Resources
+## Testing and Queries
 
-For more detailed information and examples, refer to [The Graph Protocol Documentation](https://thegraph.com/docs/en/)
+The playground in the [The Subgraph Studio](https://thegraph.com/studio/) allows you to test and query your subgraph after deploying it, but before publishing. Once tested, you can publish your subgraph to The Graph's Decentralized Network, leveraging the protocol's robustness to scale the potential of your full-stack dApp!
 
 ## Conclusion
 
@@ -290,9 +290,7 @@ In the next part, we'll delve deeper into more diverse topics and explore additi
 
 Follow me to stay updated!
 
-## Testing and Sample Queries
-
-The `playground` section in the Subgraph Studio allows you to test/query your subgraph after deploying even before it's published. After testing, you can publish your subgraph to The Graph's Decentralized Network.
+## Sample Queries
 
 ## Query 1: Most Recent Transfers
 
