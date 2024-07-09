@@ -288,9 +288,11 @@ Congratulations! You've successfully completed Part 1 of the Beginner Level in t
 
 In the next part, we'll delve deeper into more diverse topics and explore additional functionalities to enhance your skills.
 
+Follow me to stay updated!
+
 ## Testing and Sample Queries
 
-The `playground` section in the Subgraph Studio allows you to test/query your subgraph after deploying even before it's published. After testing, you can now publish your subgraph to The Graph's Decentralazed Network.
+The `playground` section in the Subgraph Studio allows you to test/query your subgraph after deploying even before it's published. After testing, you can publish your subgraph to The Graph's Decentralized Network.
 
 ## Query 1: Most Recent Transfers
 
@@ -905,31 +907,3 @@ query TopAccountsLifetime {
   }
 }
 ```
-
-## Step 8: Generate Types and Build Subgraph
-
-Before deploying your subgraph to The Graph Studio, ensure to generate TypeScript typings and build your subgraph
-
-```bash
-graph codegen && graph build
-
-```
-
-`graph codegen`: Generates TypeScript typings based on your GraphQL schema and mappings.
-`graph build`: Compiles your subgraph into executable code for deployment.
-
-This step validates your schema, compiles mappings into WASM modules, and prepares your subgraph for deployment or local testing.
-
-## Step 9: Deploying the Subgraph
-
-Deploy your subgraph to The Graph Studio with the following command:
-
-```bash
-graph deploy --studio <subgraph-name>
-```
-
-Congratulations! You've successfully completed Part 1 of the Beginner Level in the Subgraph Development Masterclass. You've learned how to define entities, implement mappings, and deploy a subgraph using an ERC20 token contract as a use case.
-
-In the next part, we'll delve deeper into more advanced topics and explore additional functionalities to enhance your subgraph development skills.
-
-Follow me to stay updated!
