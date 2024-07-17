@@ -33,7 +33,7 @@ Before you begin, ensure you have the following installed:
 
 - Navigate to The Graph Studio, sign in, and create a new subgraph.
 - Enter the required details such as the subgraph name and description.
-- you will receive a deploy key and subgraph slug (e.g., username/subgraph-name)
+- You will receive a deploy key and subgraph slug (e.g., username/subgraph-name)
 - Initialize your subgraph with the command from the studio.
 
 ```bash
@@ -70,22 +70,24 @@ The initialized project contains the following structure:
 After initializing your subgraph project and setting up your directory structure, the next crucial step is to define your GraphQL entities in the schema. Entities represent and define the data structures that your subgraph will index from Ethereum smart contracts. Let's break down the entities defined in schema.graphql:
 
 ```gql
+# Define a Transfer type representing the transfer of tokens
 type Transfer @entity(immutable: true) {
-  id: ID!
-  from: Account!
-  to: Account!
-  value: BigInt!
-  timestamp: BigInt!
+  id: ID! # Unique identifier for the transfer entity
+  from: Account! # Reference to the Account entity sending the tokens
+  to: Account! # Reference to the Account entity receiving the tokens
+  value: BigInt! # Amount of tokens transferred
+  timestamp: BigInt! # Timestamp when the transfer occurred
 }
 
+# Define an Account type representing a user account
 type Account @entity {
-  id: ID!
-  sentTransfers: [Transfer!]! @derivedFrom(field: "from")
-  receivedTransfers: [Transfer!]! @derivedFrom(field: "to")
-  totalSent: BigInt!
-  totalReceived: BigInt!
-  sentCount: Int!
-  receivedCount: Int!
+  id: ID! # Unique identifier for the account entity
+  sentTransfers: [Transfer!]! @derivedFrom(field: "from") # Array of transfers sent by the account # Use @derivedFrom to create a relationship from Transfer 'from' field
+  receivedTransfers: [Transfer!]! @derivedFrom(field: "to") # Array of transfers received by the account # Use @derivedFrom to create a relationship from Transfer 'to' field
+  totalSent: BigInt! # Total amount of tokens sent by the account
+  totalReceived: BigInt! # Total amount of tokens received by the account
+  sentCount: Int! # Number of transfers sent by the account
+  receivedCount: Int! # Number of transfers received by the account
 }
 ```
 
@@ -232,6 +234,11 @@ export function handleTransfer(event: TransferEvent): void {
   transfer.save(); // Save the Transfer entity to the store
 }```
 
+Event Handling: handleTransfer listens to TransferEvent emitted by the Uniswap contract.
+Unique ID Generation: Uses the transaction hash and log index to ensure unique entity IDs.
+Entity Creation: Retrieves or creates Account entities for sender and receiver.
+Data Assignment: Maps event parameters to entity fields.
+Statistics Update: Updates sender and receiver statistics based on transfer value.
 Mapping Functions: Functions like `handleTransfer` act as event handlers for Ethereum smart contract events (TransferEvent). They instantiate new GraphQL entities (Transfer) using event data, update related account entities (`fromAccount` and `toAccount`), and ensure these changes are persistently stored in the subgraph's datastore.
 ````
 
@@ -279,11 +286,18 @@ The playground in the [The Subgraph Studio](https://thegraph.com/studio/) allows
 
 ## Conclusion
 
-Congratulations! You've successfully completed Part 1 of the Beginner Level in the Subgraph Development Masterclass. You've learned how to define entities, implement mappings, and deploy a subgraph using an ERC20 token contract as a use case.
+Congratulations! You've successfully built and deployed your first subgraph. You can now query your subgraph using The Graph Explorer.
 
-In the next part, we'll delve deeper into more diverse topics and explore additional functionalities to enhance your skills.
+## Summary
 
-Follow me to stay updated!
+In Part 1 of this masterclass, you learned how to:
+
+    Set up your subgraph development environment.
+    Define GraphQL entities and mappings.
+    Implement helper functions and mapping logic.
+    Build and deploy your subgraph to The Graph Studio.
+
+In Part 2, we'll expand on these concepts by indexing multiple smart contracts using two DAOs as a use case. Stay tuned!
 
 ## Sample Queries
 
