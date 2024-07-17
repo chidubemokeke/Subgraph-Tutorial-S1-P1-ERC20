@@ -1,21 +1,19 @@
 # Define a Transfer type representing the transfer of tokens
 type Transfer @entity(immutable: true) {
-  id: ID!                       # Unique identifier for the transfer entity
-  from: Account!                # Reference to the Account entity sending the tokens
-  to: Account!                  # Reference to the Account entity receiving the tokens
-  value: BigInt!                # Amount of tokens transferred
-  timestamp: BigInt!            # Timestamp when the transfer occurred
+  id: ID! # Unique identifier for the transfer entity
+  from: Account! # Reference to the Account entity sending the tokens
+  to: Account! # Reference to the Account entity receiving the tokens
+  value: BigInt! # Amount of tokens transferred
+  timestamp: BigInt! # Timestamp when the transfer occurred
 }
 
 # Define an Account type representing a user account
 type Account @entity {
-  id: ID!                       # Unique identifier for the account entity
-  sentTransfers: [Transfer!]!   # List of transfers sent by the account
-    @derivedFrom(field: "from") # Use @derivedFrom to create a relationship from Transfer 'from' field
-  receivedTransfers: [Transfer!]! # List of transfers received by the account
-    @derivedFrom(field: "to")   # Use @derivedFrom to create a relationship from Transfer 'to' field
-  totalSent: BigInt!            # Total amount of tokens sent by the account
-  totalReceived: BigInt!        # Total amount of tokens received by the account
-  sentCount: Int!               # Number of transfers sent by the account
-  receivedCount: Int!           # Number of transfers received by the account
+  id: ID! # Unique identifier for the account entity
+  sentTransfers: [Transfer!]! @derivedFrom(field: "from") # Array of transfers sent by the account # Use @derivedFrom to create a relationship from Transfer 'from' field
+  receivedTransfers: [Transfer!]! @derivedFrom(field: "to") # Array of transfers received by the account # Use @derivedFrom to create a relationship from Transfer 'to' field
+  totalSent: BigInt! # Total amount of tokens sent by the account
+  totalReceived: BigInt! # Total amount of tokens received by the account
+  sentCount: Int! # Number of transfers sent by the account
+  receivedCount: Int! # Number of transfers received by the account
 }
