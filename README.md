@@ -122,30 +122,30 @@ type Account @entity {
 To configure your entities for deployment, you need to define them in your subgraph.yaml file. Here’s how you can specify the entities:
 
 ```yaml
-specVersion: 0.0.5
+specVersion: 0.0.5 #The version of the subgraph schema definition
 schema:
-  file: ./schema.graphql
-dataSources:
-  - kind: ethereum
-    name: Uniswap
-    network: mainnet
+  file: ./schema.graphql #The location of the GraphQL schema file
+dataSources: #The data sources for the subgraph
+  - kind: ethereum #The kind of data source, in this case, Ethereum
+    name: Uniswap # Name of the data source
+    network: mainnet # The Ethereum network to use (mainnet)
     source:
-      address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
-      abi: Uniswap
-      startBlock: 20180838
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
+      address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984" # The contract address for Uniswap
+      abi: Uniswap # The ABI (Application Binary Interface) to use for the contract
+      startBlock: 20180838 # The block number from which to start indexing events
+    mapping: # Specify the kind of mapping (event handlers for Ethereum)
+      kind: ethereum/events # The API version to use for the mapping
+      apiVersion: 0.0.7 # The API version to use for the mapping
+      language: wasm/assemblyscript # The language used for writing mappings (AssemblyScript for WebAssembly)
       entities:
-        - Transfer
+        - Transfer # The entities defined in the GraphQL schema that this data source will map to
       abis:
-        - name: Uniswap
-          file: ./abis/Uniswap.json
+        - name: Uniswap # Define the ABI for Uniswap
+          file: ./abis/Uniswap.json # The path to the ABI file
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-      file: ./src/mappings/uniswap.ts
+        - event: Transfer(indexed address,indexed address,uint256) # The event signature to handle (Transfer event)
+          handler: handleTransfer # The handler function to call when the event is emitted
+      file: ./src/mappings/uniswap.ts # The path to the mapping file containing the handler functions
 ```
 
 - **specVersion**: Specifies the version of the subgraph manifest specification being used (0.0.5).
