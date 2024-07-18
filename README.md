@@ -1,4 +1,4 @@
-# Subgraph Development Masterclass - Beginner - Part 1 - ERC20
+# Subgraph Development Tutorial - Beginner - Part 1 - ERC20
 
 Welcome to the Beginner Level of the Subgraph Development Masterclass. This tutorial will guide you through the fundamentals of subgraph development using [The Graph Studio Account](https://thegraph.com/studio/), from setting up your environment to deploying your first subgraph using an ERC20 token contract as a use case.
 
