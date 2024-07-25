@@ -1,6 +1,6 @@
 # Subgraph Development Tutorial - Beginner - Part 1 - ERC20
 
-Welcome to the Beginner Level of the Subgraph Development Masterclass. This tutorial will guide you through the fundamentals of subgraph development using [The Graph Studio Account](https://thegraph.com/studio/), from setting up your environment to deploying your first subgraph using an ERC20 token contract as a use case.
+Welcome to the Beginner Level of the Subgraph Development Masterclass. This tutorial will guide you through the fundamentals of subgraph development using [The Graph Studio](https://thegraph.com/studio/), from setting up your environment to deploying your first subgraph using an ERC20 token contract as a use case.
 
 ## Overview
 
@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install)
 - [Graph CLI](https://github.com/graphprotocol/graph-cli)
-- [The Graph Studio Account](https://thegraph.com/studio/)
+- [Create a Graph Studio Account](https://thegraph.com/studio/)
 
 ## Step-by-Step Tutorial
 
@@ -291,11 +291,10 @@ Congratulations! You've successfully built and deployed your first subgraph. You
 ## Summary
 
 In Part 1 of this masterclass, you learned how to:
-
-    Set up your subgraph development environment.
-    Define GraphQL entities and mappings.
-    Implement helper functions and mapping logic.
-    Build and deploy your subgraph to The Graph Studio.
+Set up your subgraph development environment.
+Define GraphQL entities and mappings.
+Implement helper functions and mapping logic.
+Build and deploy your subgraph to The Graph Studio.
 
 In Part 2, we'll expand on these concepts by indexing multiple smart contracts using two DAOs as a use case. Stay tuned!
 
